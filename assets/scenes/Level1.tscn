@@ -1,5 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://bqgncvyinsv67"]
+[gd_scene load_steps=9 format=3 uid="uid://bqgncvyinsv67"]
 
+[ext_resource type="Script" path="res://assets/scripts/PushRigidBody.gd" id="1_lvj18"]
 [ext_resource type="PackedScene" uid="uid://blcmbr44sgwg8" path="res://assets/scenes/prefabs/Player.tscn" id="1_tlm0i"]
 [ext_resource type="Texture2D" uid="uid://t8euc2u6ody8" path="res://assets/art/textures/grass.jpg" id="2_7dv6t"]
 [ext_resource type="Texture2D" uid="uid://btka23n2p6kyb" path="res://icon.svg" id="3_1f61k"]
@@ -10,10 +11,16 @@ friction = 0.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xpuqt"]
 size = Vector2(78, 707)
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_5pb25"]
+rough = true
+bounce = 0.24
+absorbent = true
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_m504u"]
 radius = 31.0483
 
 [node name="Level1" type="Node2D"]
+script = ExtResource("1_lvj18")
 
 [node name="Player" parent="." instance=ExtResource("1_tlm0i")]
 scale = Vector2(0.5, 0.5)
@@ -49,13 +56,18 @@ rotation = -1.5708
 scale = Vector2(1.16, 1.795)
 shape = SubResource("RectangleShape2D_xpuqt")
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
-position = Vector2(662, 226)
-motion_mode = 1
+[node name="RigidBody2D" type="RigidBody2D" parent="."]
+physics_material_override = SubResource("PhysicsMaterial_5pb25")
+gravity_scale = 0.0
+continuous_cd = 1
+lock_rotation = true
+freeze_mode = 1
 
-[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
+[node name="Sprite2D" type="Sprite2D" parent="RigidBody2D"]
+position = Vector2(662, 226)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("3_1f61k")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
+position = Vector2(662, 226)
 shape = SubResource("CircleShape2D_m504u")
